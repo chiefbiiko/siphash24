@@ -4,8 +4,8 @@ interface _bigint {
 }
 
 function _add(a: _bigint, b: _bigint): void {
-    var rl: number = a.l + b.l,
-        a2: _bigint = { h: a.h + b.h + (rl / 2 >>> 31) >>> 0,
+    var rl: number = a.l + b.l
+let  a2: _bigint = { h: a.h + b.h + (rl / 2 >>> 31) >>> 0,
                l: rl >>> 0 };
     a.h = a2.h; a.l = a2.l;
 }
@@ -57,21 +57,21 @@ function _to4uint32s(a: Uint8Array): number[] {
             _get_uint32(a, 8), _get_uint32(a, 12)];
 }
 
-function __hash_hex(key, m) {
-    var r = siphash24(key, m);
-    return ("0000000" + r.h.toString(16)).substr(-8) +
-           ("0000000" + r.l.toString(16)).substr(-8);
+function _to8Bytes(h: _bigint): Uint8Array {
+  const dv: DataView = new DataView(new ArrayBuffer(8));
+  dv.setUint32(0, h.h, true); // offset, num, littleEndian
+  dv.setUint32(4, h.l, true);
+  return new Uint8Array(dv.buffer);
 }
 
-// TODO: return Uint8Array
-export function siphash24(key: Uint8Array, msg: Uint8Array): _bigint {
+export function siphash24(key: Uint8Array, msg: Uint8Array): Uint8Array {
     let k: number[] = _to4uint32s(key);
-    var k0: _bigint = { h: k[1] >>> 0, l: k[0] >>> 0 },
-        k1: _bigint = { h: k[3] >>> 0, l: k[2] >>> 0 },
-        v0: _bigint = { h: k0.h, l: k0.l }, v2:_bigint = k0,
-        v1: _bigint = { h: k1.h, l: k1.l }, v3: _bigint = k1,
-        mi: _bigint, mp: number = 0, ml: number = msg.length, ml7: number = ml - 7,
-        buf: Uint8Array = new Uint8Array(new ArrayBuffer(8)); // rid
+    var k0: _bigint = { h: k[1] >>> 0, l: k[0] >>> 0 };
+        let k1: _bigint = { h: k[3] >>> 0, l: k[2] >>> 0 };
+        let v0: _bigint = { h: k0.h, l: k0.l }; let v2:_bigint = k0;
+        let v1: _bigint = { h: k1.h, l: k1.l }; let v3: _bigint = k1;
+        let mi: _bigint; let mp: number = 0; let ml: number = msg.length; let ml7: number = ml - 7;
+        let buf: Uint8Array = new Uint8Array(new ArrayBuffer(8)); // rid
 
     _xor(v0, { h: 0x736f6d65, l: 0x70736575 });
     _xor(v1, { h: 0x646f7261, l: 0x6e646f6d });
@@ -110,5 +110,5 @@ export function siphash24(key: Uint8Array, msg: Uint8Array): _bigint {
     _xor(h, v2);
     _xor(h, v3);
 
-    return h;
+    return _to8Bytes(h);
 }
