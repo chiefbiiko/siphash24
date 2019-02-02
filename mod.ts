@@ -65,6 +65,9 @@ function _to8Bytes(h: _bigint): Uint8Array {
 }
 
 export function siphash24(key: Uint8Array, msg: Uint8Array): Uint8Array {
+    if (key.length !== 16) {
+      throw TypeError("key.length is not 16 bytes");
+    }
     let k: number[] = _to4uint32s(key);
     var k0: _bigint = { h: k[1] >>> 0, l: k[0] >>> 0 };
         let k1: _bigint = { h: k[3] >>> 0, l: k[2] >>> 0 };
