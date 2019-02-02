@@ -2,6 +2,7 @@ import { readFileSync } from "deno";
 import { siphash24 } from "./mod.ts";
 import { test, equal, runTests } from "https://deno.land/x/testing/mod.ts";
 
+// test vectors obtained from https://131002.net/siphash/siphash24.c
 const testVectors = JSON.parse(
   new TextDecoder().decode(readFileSync("./test_vectors.json"))
 ).map(function parseTestVector(v: {
