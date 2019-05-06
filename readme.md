@@ -4,14 +4,11 @@
 
 ---
 
-SipHash24 `ts` implementation for `deno`.
+SipHash24 implemented in WebAssembly.
 
-> Once `deno` supports WASM this module will switch to a WebAssembly implementation for increased performance.
+> Tailored to [`Deno`](https://github.com/denoland/deno)
 
-All credit to the original authors [Jean-Philippe Aumasson](https://131002.net) and
-[Daniel J. Bernstein](http://cr.yp.to), as well as open-source contributors [jedisct1 (Frank Denis)](https://github.com/jedisct1/siphash-js), [mafintosh](https://github.com/mafintosh/siphash24-wasm)
-and [emilbayes](https://github.com/emilbayes/siphash24) for porting the reference
-implementation to JavaScript and WebAssembly.
+All credit to the original authors [Jean-Philippe Aumasson](https://131002.net) and [Daniel J. Bernstein](http://cr.yp.to), as well as open-source contributors [jedisct1 (Frank Denis)](https://github.com/jedisct1/siphash-js), [mafintosh](https://github.com/mafintosh/siphash24-wasm) and [emilbayes](https://github.com/emilbayes/siphash24) for porting the reference implementation to JavaScript and WebAssembly.
 
 ---
 

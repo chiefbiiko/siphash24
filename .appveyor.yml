@@ -5,5 +5,5 @@ build: off
 shallow_clone: true
 
 test_script: 
-  - cmd: deno test.ts
+  - cmd: deno run --allow-read ./test.ts
   

@@ -1,29 +1,29 @@
-import { readFileSync } from "deno";
 import { siphash24 } from "./mod.ts";
-import { test, equal, runTests } from "https://deno.land/x/testing/mod.ts";
+import { test, runIfMain } from "https://deno.land/x/testing/mod.ts";
+import { assertEquals } from "https://deno.land/x/testing/asserts.ts";
+
+interface TestVector {
+  key: Uint8Array;
+  msg: Uint8Array;
+  expected: Uint8Array;
+}
 
 // test vectors obtained from https://131002.net/siphash/siphash24.c
-const testVectors = JSON.parse(
-  new TextDecoder().decode(readFileSync("./test_vectors.json"))
-).map(function parseTestVector(v: {
-  key: number[];
-  msg: number[];
-  expected: number[];
-}): { key: Uint8Array; msg: Uint8Array; expected: Uint8Array } {
-  return {
-    key: new Uint8Array(v.key),
-    msg: new Uint8Array(v.msg),
-    expected: new Uint8Array(v.expected)
-  };
-});
+const testVectors: TestVector[] = JSON.parse(
+  new TextDecoder().decode(Deno.readFileSync("./test_vectors.json"))
+).map(({ key, msg, expected }: { [key: string]: number[] }): TestVector => ({
+  key: Uint8Array.from(key),
+  msg: Uint8Array.from(msg),
+  expected: Uint8Array.from(expected)
+}));
 
-test(function passesTestVectors(): void {
+test(function passesTestVectors() {
   const out: Uint8Array = new Uint8Array(8);
-  for (const testVector of testVectors) {
-    siphash24(testVector.msg, testVector.key, out);
-    equal(out, testVector.expected);
+  for (const { msg, key, expected } of testVectors) {
+    siphash24(msg, key, out);
+    assertEquals(out, expected);
     out.fill(0);
   }
 });
 
-runTests();
+runIfMain(import.meta);
