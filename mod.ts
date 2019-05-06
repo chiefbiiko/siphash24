@@ -19,5 +19,6 @@ export function siphash24(
   wasm.memory.set(key, 8);
   wasm.memory.set(msg, 24);
   wasm.exports.siphash24(24, msg.length);
+  wasm.memory.fill(0, 8, 24);
   out.set(wasm.memory.subarray(0, 8));
 }
