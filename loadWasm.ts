@@ -4,7 +4,7 @@ export interface Wasm {
   buffer: Uint8Array;
   memory: Uint8Array;
   exports: { [key: string]: any };
-  realloc: (size: number) => void;
+  lalloc: (size: number) => void;
 }
 
 export function loadWasm(): Wasm {
@@ -16,10 +16,12 @@ export function loadWasm(): Wasm {
     new WebAssembly.Module(mod.buffer)
   ).exports;
   mod.memory = new Uint8Array(mod.exports.memory.buffer);
-  mod.realloc = (size: number): void => {
-    const pages: number = Math.ceil(Math.abs(size - mod.memory.length) / 65536);
-    mod.exports.memory.grow(pages);
-    mod.memory = new Uint8Array(mod.exports.memory.buffer);
+  mod.lalloc = (bytes: number): void => {
+    if (mod.memory.byteLength < bytes) {
+      const pages: number = Math.ceil((bytes - mod.memory.byteLength) / 65536);
+      mod.exports.memory.grow(pages);
+      mod.memory = new Uint8Array(mod.exports.memory.buffer);
+    }
   };
   return mod;
 }

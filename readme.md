@@ -40,7 +40,7 @@ console.log(`msg: ${msg}\nkey: ${key}\nmac: ${mac}`);
 
 ## API
 
-#### `siphash24(msg:Uint8Array, key: Uint8Array, out: Uint8Array): void`
+#### `siphash24(msg: Uint8Array, key: Uint8Array, out: Uint8Array): void`
 
 Mac a variable-length message with a 16-byte key while providing a 8-byte output buffer.
 
