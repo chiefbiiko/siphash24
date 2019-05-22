@@ -1,6 +1,6 @@
 import { siphash24 } from "./mod.ts";
-import { test, runIfMain } from "https://deno.land/x/testing/mod.ts";
-import { assertEquals } from "https://deno.land/x/testing/asserts.ts";
+import { test, runIfMain } from "https://deno.land/std/testing/mod.ts";
+import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
 
 interface TestVector {
   key: Uint8Array;

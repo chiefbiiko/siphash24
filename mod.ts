@@ -1,5 +1,5 @@
 import { Wasm, loadWasm } from "./loadWasm.ts";
-import { assert } from "https://deno.land/x/testing/asserts.ts";
+import { assert } from "https://deno.land/std/testing/asserts.ts";
 
 const wasm: Wasm = loadWasm();
 
