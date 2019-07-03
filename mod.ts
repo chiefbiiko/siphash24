@@ -10,13 +10,20 @@ export function siphash24(
   msg: Uint8Array,
   key: Uint8Array,
   out: Uint8Array
-): void {
-  assert(out.length === BYTES);
-  assert(key.length === KEYBYTES);
-  wasm.lalloc(msg.length + 24);
+): Uint8Array {
+  assert(out.byteLength === BYTES, `out.byteLength must equal ${BYTES}`);
+  assert(key.byteLength === KEYBYTES, `key.byteLength must equal ${KEYBYTES}`);
+
+  wasm.lalloc(msg.byteLength + 24);
+
   wasm.memory.set(key, 8);
   wasm.memory.set(msg, 24);
-  wasm.exports.siphash24(24, msg.length);
+
+  wasm.exports.siphash24(24, msg.byteLength);
+
   wasm.memory.fill(0, 8, 24);
+
   out.set(wasm.memory.subarray(0, 8));
+
+  return out;
 }
